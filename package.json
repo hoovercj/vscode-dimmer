@@ -1,12 +1,13 @@
 {
     "name": "vscode-dimmer",
-    "displayName": "vscode-dimmer",
+    "displayName": "VSCode Dimmer",
     "description": "",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "publisher": "hoovercj",
     "engines": {
         "vscode": "^1.6.0"
     },
+    "icon": "images/icon.png",
     "repository": {
         "type": "git",
         "url": "https://github.com/hoovercj/vscode-dimmer.git"
