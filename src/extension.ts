@@ -15,17 +15,15 @@ let enabled = false;
 let dimSelectedLines = false;
 let opacity = 50;
 let delay = 200;
-let commandScope = true; 
+let commandScope = true;
 
 let delayers: { [key: string]: utils.ThrottledDelayer<void> } = Object.create(null);
 
 export function activate(context: vscode.ExtensionContext) {
     let configRegistration = vscode.workspace.onDidChangeConfiguration(readConfiguration);
-    let selectionRegistration = vscode.window.onDidChangeTextEditorSelection((e) => {
-        if (enabled) {
-            setDecorations(e.textEditor);
-        }
-    });
+    let selectionRegistration = vscode.window.onDidChangeTextEditorSelection((e) => updateIfEnabled(e.textEditor));
+
+    let textEditorChangeRegistration = vscode.window.onDidChangeActiveTextEditor((textEditor) => updateIfEnabled(textEditor))
 
     let commandRegistration = vscode.commands.registerCommand('dimmer.ToggleDimmer', () => {
         vscode.workspace.getConfiguration('dimmer').update("enabled", !enabled, commandScope)
@@ -33,7 +31,13 @@ export function activate(context: vscode.ExtensionContext) {
 
     readConfiguration();
 
-    context.subscriptions.push(selectionRegistration, configRegistration, commandRegistration);
+    context.subscriptions.push(selectionRegistration, configRegistration, commandRegistration, textEditorChangeRegistration);
+}
+
+function updateIfEnabled(textEditor: vscode.TextEditor) {
+    if (enabled) {
+        setDecorations(textEditor);
+    }
 }
 
 function readConfiguration()  {
