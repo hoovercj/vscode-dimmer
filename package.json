@@ -62,6 +62,11 @@
                     "default": false,
                     "type": "boolean",
                     "description": "When set to true, the extension will dim ALL non-selected text. By default it will not dim any text on a line with a selection."
+                },
+                "dimmer.context": {
+                    "default": 0,
+                    "type": "number",
+                    "description": "Num lines of leading and trailing context surrounding current line are not dimmed. Default to 0."
                 }
             }
         }
