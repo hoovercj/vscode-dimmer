@@ -13,6 +13,7 @@ let dimDecoration = vscode.window.createTextEditorDecorationType(<vscode.Decorat
 
 let enabled = false;
 let dimSelectedLines = false;
+let context = 0;
 let opacity = 50;
 let delay = 200;
 let commandScope = true;
@@ -47,6 +48,7 @@ function readConfiguration()  {
     let config = vscode.workspace.getConfiguration('dimmer');
     enabled = config.get('enabled', false);
     dimSelectedLines = config.get('dimSelectedLines', false);
+    context = config.get('context', 0);
     opacity = config.get('opacity', 50);
     delay = config.get('delay', 200);
     commandScope = config.get('toggleDimmerCommandScope', 'user') === "user";
@@ -88,6 +90,7 @@ function setDecorations(textEditor: vscode.TextEditor) {
         return Promise.resolve().then(() => {
             dimEditor(textEditor);
             highlightSelections(textEditor, textEditor.selections);
+            highlightContext(textEditor, textEditor.selection);
         })
     }, delay);
 }
@@ -107,6 +110,24 @@ function highlightSelections(editor: vscode.TextEditor, selections: vscode.Range
     });
 
     editor.setDecorations(normalDecoration, ranges);
+}
+
+function highlightContext(editor: vscode.TextEditor, selection: vscode.Range) {
+    if (context < 0) {
+        return;
+    }
+
+    let startPosition = selection.start;
+    let endPosition = selection.end;
+
+    if (startPosition.isAfter(endPosition)) {
+        [startPosition, endPosition] = [endPosition, startPosition];
+    }
+
+    startPosition = startPosition.with(Math.max(startPosition.line - context, 0), 0);
+    endPosition = endPosition.with(endPosition.line + context, Number.MAX_VALUE);
+
+    editor.setDecorations(normalDecoration, [new vscode.Range(startPosition, endPosition)]);
 }
 
 function undimEditor(editor: vscode.TextEditor) {
