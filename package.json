@@ -2,7 +2,7 @@
     "name": "vscode-dimmer",
     "displayName": "VSCode Dimmer",
     "description": "",
-    "version": "1.0.1",
+    "version": "2.0.1",
     "publisher": "hoovercj",
     "engines": {
         "vscode": "^1.6.0"
@@ -46,7 +46,7 @@
                         "user",
                         "workspace"
                     ],
-                    "description": "Enum to set whether the `ToggleDimmer` command will affect the user (global) or workspace (local) settings."
+                    "description": "Decides whether the `ToggleDimmer` command will affect the user (global) or workspace (local) settings."
                 },
                 "dimmer.opacity": {
                     "default": 50,
@@ -56,7 +56,7 @@
                 "dimmer.context": {
                     "default": 0,
                     "type": "number",
-                    "description": "Num lines of leading and trailing context surrounding current line are not dimmed. A negative number will dim everything except the curent selection. Default to 0."
+                    "description": "Number of lines before and after the current line that are not dimmed. 0 will dim everything but lines with a selection and a negative number will dim everything except the curent selection. Defaults to 0."
                 },
                 "dimmer.delay": {
                     "default": 0,

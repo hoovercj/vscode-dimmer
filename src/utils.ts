@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) Microsoft Corporation - Taken from https://www.github.com/microsoft/vscode
+ */
+
 import * as vscode from 'vscode';
 
 /**

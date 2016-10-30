@@ -127,4 +127,5 @@ function dimEditor(editor: vscode.TextEditor) {
 }
 
 export function deactivate() {
+    resetAllDecorations();
 }
