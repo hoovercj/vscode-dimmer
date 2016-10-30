@@ -8,6 +8,8 @@ Dims text outside of selections by reducing the opacity of the text. Supports mu
 
 Set a keybinding for `dimmer.ToggleDimmer`, search `Toggle Dimmer` in the command palette, or use the `dimmer.enabled` setting.
 
+By default the extension will dim all lines that don't have an extension. Use the `dimmer.context` setting to leave N lines before and after un-dimmed. Setting it a negative number will dim everything but the selection.
+
 ## Configuration
 
 ```
@@ -32,6 +34,11 @@ Set a keybinding for `dimmer.ToggleDimmer`, search `Toggle Dimmer` in the comman
     "description": "When set to true, the extension will dim ALL non-selected text. By default it will not dim any text on a line with a selection."
 }
 ```
+
+### VNEXT
+- Dim on editor change (e.g. ctrl+tab). Thanks @roblourens
+- Highlight context (n lines before/after). Thanks @rebornix
+- Breaking: `dimmer.dimSelectedLines` has been replaced by `dimmer.context`. 
 
 ### 1.0.0
 

@@ -39,16 +39,6 @@
                     "type": "boolean",
                     "description": "When set to true, the extension will dim non-selected text."
                 },
-                "dimmer.opacity": {
-                    "default": 50,
-                    "type": "number",
-                    "description": "An integer between 0 and 100 used for the opacity percentage for the dimmed (non-selected) text."
-                },
-                "dimmer.delay": {
-                    "default": 0,
-                    "type": "number",
-                    "description": "Delay in milliseconds for dimming the non-selected text to reduce number of API calls in the event of rapid selection changes. Defaults to 0, but set higher if it feels like it is causing problems."
-                },
                 "dimmer.toggleDimmerCommandScope": {
                     "defualt": "user",
                     "type": "string",
@@ -58,15 +48,20 @@
                     ],
                     "description": "Enum to set whether the `ToggleDimmer` command will affect the user (global) or workspace (local) settings."
                 },
-                "dimmer.dimSelectedLines": {
-                    "default": false,
-                    "type": "boolean",
-                    "description": "When set to true, the extension will dim ALL non-selected text. By default it will not dim any text on a line with a selection."
+                "dimmer.opacity": {
+                    "default": 50,
+                    "type": "number",
+                    "description": "An integer between 0 and 100 used for the opacity percentage for the dimmed (non-selected) text."
                 },
                 "dimmer.context": {
                     "default": 0,
                     "type": "number",
-                    "description": "Num lines of leading and trailing context surrounding current line are not dimmed. Default to 0."
+                    "description": "Num lines of leading and trailing context surrounding current line are not dimmed. A negative number will dim everything except the curent selection. Default to 0."
+                },
+                "dimmer.delay": {
+                    "default": 0,
+                    "type": "number",
+                    "description": "Delay in milliseconds for dimming the non-selected text to reduce number of API calls in the event of rapid selection changes. Defaults to 0, but set higher if it feels like it is causing problems."
                 }
             }
         }
