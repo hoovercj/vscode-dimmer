@@ -3,11 +3,14 @@
 import * as vscode from 'vscode';
 import * as utils from './utils';
 
+const DEFAULT_CONTEXT = 0;
+
 let enabled = false;
-let context = 0;
+let context = DEFAULT_CONTEXT;
 let opacity = 50;
 let delay = 200;
 let commandScope = true;
+const updateContextBy = 1;
 
 let dimDecoration: vscode.TextEditorDecorationType;
 let normalDecoration = vscode.window.createTextEditorDecorationType(<vscode.DecorationRenderOptions> {
@@ -24,10 +27,13 @@ export function activate(context: vscode.ExtensionContext) {
     let commandRegistration = vscode.commands.registerCommand('dimmer.ToggleDimmer', () => {
         vscode.workspace.getConfiguration('dimmer').update("enabled", !enabled, commandScope);
     });
+    let incrementContextCommandRegistration = vscode.commands.registerCommand('dimmer.IncrementContext', () => updateContextSize(updateContextBy));
+    let decrementContextCommandRegistration = vscode.commands.registerCommand('dimmer.DecrementContext', () => updateContextSize(updateContextBy * -1));
 
     initialize();
 
-    context.subscriptions.push(selectionRegistration, configRegistration, commandRegistration, textEditorChangeRegistration);
+    context.subscriptions.push(selectionRegistration, configRegistration, commandRegistration, incrementContextCommandRegistration, 
+        decrementContextCommandRegistration, textEditorChangeRegistration);
 }
 
 function updateIfEnabled(textEditor: vscode.TextEditor) {
@@ -50,7 +56,7 @@ function readConfig() {
     enabled = config.get('enabled', false);
     commandScope = config.get('toggleDimmerCommandScope', 'user') === 'user';
     opacity = config.get('opacity', 50);
-    context = config.get('context', 0);
+    context = config.get('context', DEFAULT_CONTEXT);
     delay = config.get('delay', 200);
     delay = delay < 0 ? 0 : delay;
 }
@@ -124,6 +130,13 @@ function dimEditor(editor: vscode.TextEditor) {
     let startPosition = new vscode.Position(0, 0)
     let endPosition = new vscode.Position(editor.document.lineCount, Number.MAX_VALUE);
     editor.setDecorations(dimDecoration, [new vscode.Range(startPosition, endPosition)]);
+}
+
+function updateContextSize(updateBy: number) {
+    let config = vscode.workspace.getConfiguration('dimmer');
+    context = config.get('context', DEFAULT_CONTEXT);
+    context += updateBy;
+    config.update('context', context);
 }
 
 export function deactivate() {

@@ -28,10 +28,20 @@
     ],
     "main": "./out/src/extension",
     "contributes": {
-        "commands": [{
+        "commands": [
+            {
             "command": "dimmer.ToggleDimmer",
             "title": "Toggle Dimmer"
-        }],
+            },
+            {
+            "command": "dimmer.IncrementContext",
+            "title": "Dimmer: Increment Context"
+            },
+            {
+            "command": "dimmer.DecrementContext",
+            "title": "Dimmer: Decrement Context"
+            }
+        ],
         "configuration": {
             "properties": {
                 "dimmer.enabled": {
