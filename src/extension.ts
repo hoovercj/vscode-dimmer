@@ -8,6 +8,7 @@ let context = 0;
 let opacity = 50;
 let delay = 200;
 let commandScope = true;
+const updateContextBy = 1;
 
 let dimDecoration: vscode.TextEditorDecorationType;
 let normalDecoration = vscode.window.createTextEditorDecorationType(<vscode.DecorationRenderOptions> {
@@ -24,10 +25,13 @@ export function activate(context: vscode.ExtensionContext) {
     let commandRegistration = vscode.commands.registerCommand('dimmer.ToggleDimmer', () => {
         vscode.workspace.getConfiguration('dimmer').update("enabled", !enabled, commandScope);
     });
+    let incrementContextCommandRegistration = vscode.commands.registerCommand('dimmer.IncrementContext', () => updateContextSize(updateContextBy));
+    let decrementContextCommandRegistration = vscode.commands.registerCommand('dimmer.DecrementContext', () => updateContextSize(updateContextBy * -1));
 
     initialize();
 
-    context.subscriptions.push(selectionRegistration, configRegistration, commandRegistration, textEditorChangeRegistration);
+    context.subscriptions.push(selectionRegistration, configRegistration, commandRegistration, incrementContextCommandRegistration, 
+        decrementContextCommandRegistration, textEditorChangeRegistration);
 }
 
 function updateIfEnabled(textEditor: vscode.TextEditor) {
@@ -124,6 +128,13 @@ function dimEditor(editor: vscode.TextEditor) {
     let startPosition = new vscode.Position(0, 0)
     let endPosition = new vscode.Position(editor.document.lineCount, Number.MAX_VALUE);
     editor.setDecorations(dimDecoration, [new vscode.Range(startPosition, endPosition)]);
+}
+
+function updateContextSize(updateBy: number) {
+    let config = vscode.workspace.getConfiguration('dimmer');
+    context = config.get('context', 0);
+    context += updateBy;
+    config.update('context', context);
 }
 
 export function deactivate() {
