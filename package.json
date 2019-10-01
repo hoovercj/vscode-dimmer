@@ -28,10 +28,20 @@
     ],
     "main": "./out/src/extension",
     "contributes": {
-        "commands": [{
+        "commands": [
+            {
             "command": "dimmer.ToggleDimmer",
             "title": "Toggle Dimmer"
-        }],
+            },
+            {
+            "command": "dimmer.IncrementOpacity",
+            "title": "Dimmer: Increment Opacity"
+            },
+            {
+            "command": "dimmer.DecrementOpacity",
+            "title": "Dimmer: Decrement Opacity"
+            }
+        ],
         "configuration": {
             "properties": {
                 "dimmer.enabled": {

@@ -47,6 +47,21 @@ export function compareRangesUsingEnds(a: vscode.Range, b: vscode.Range): number
     return a.end.line - b.end.line;
 }
 
+/**
+ * A function that garantees a value will remain between boundaries
+ */
+export function keepValueBetweenBoudaries(value: number, lowerBoundary: number, higherBoundary: number): number {
+	let newValue = value;
+
+	if (newValue < lowerBoundary) {
+			newValue = lowerBoundary
+	}
+	if (newValue > higherBoundary) {
+			newValue = higherBoundary
+	}
+	return newValue
+}
+
 export interface ITask<T> {
 	(): T;
 }
