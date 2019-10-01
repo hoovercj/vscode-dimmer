@@ -3,8 +3,10 @@
 import * as vscode from 'vscode';
 import * as utils from './utils';
 
+const DEFAULT_CONTEXT = 0;
+
 let enabled = false;
-let context = 0;
+let context = DEFAULT_CONTEXT;
 let opacity = 50;
 let delay = 200;
 let commandScope = true;
@@ -54,7 +56,7 @@ function readConfig() {
     enabled = config.get('enabled', false);
     commandScope = config.get('toggleDimmerCommandScope', 'user') === 'user';
     opacity = config.get('opacity', 50);
-    context = config.get('context', 0);
+    context = config.get('context', DEFAULT_CONTEXT);
     delay = config.get('delay', 200);
     delay = delay < 0 ? 0 : delay;
 }
@@ -132,7 +134,7 @@ function dimEditor(editor: vscode.TextEditor) {
 
 function updateContextSize(updateBy: number) {
     let config = vscode.workspace.getConfiguration('dimmer');
-    context = config.get('context', 0);
+    context = config.get('context', DEFAULT_CONTEXT);
     context += updateBy;
     config.update('context', context);
 }
